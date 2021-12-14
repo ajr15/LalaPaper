@@ -11,32 +11,39 @@ from skopt.space import Real, Integer, Categorical
 
 
 # list of (model, representation) pairs, to make data easily
-tf_run_model_representation_pairs = [
-    (models.RNN, reps.LalaOneHot()),
-    (models.RNN, reps.SmilesOneHot())
-]
 
-dc_run_model_representation_pairs = [(models.GraphConv, reps.MolConvRepresentation())]
-
-sk_run_model_representation_pairs = [
-    (models.RfModel, reps.LalaFeatures()),
-    (models.CustodiRfModel, reps.LalaString(padd=True)),
-    (models.CustodiRfModel, reps.SmilesString(padd=True)),
-    (models.KrrModel, reps.LalaFeatures()),
-    (models.CustodiKrrModel, reps.LalaString(padd=True)),
-    (models.CustodiKrrModel, reps.SmilesString(padd=True)),
-    (models.CustodiModel, reps.LalaString(padd=False)),
-    (models.CustodiModel, reps.SmilesString(padd=False))
-]
+args_dict = {
+              "tensorflow": {
+                              "pairs": [("rnn", "lala_one_hot_rep"), ("rnn", "smiles_one_hot_rep")],
+                              "exe": "/home/shaharpit/miniconda3/envs/tensorflow/bin/python"
+                            },
+              "deepchem":   {
+                              "pairs": [("graph_conv", "mol_conv_rep")],
+                              "exe": "/home/shaharpit/miniconda3/envs/tensorflow/bin/python"
+                            },
+              "sklearn":    {
+                              "pairs": [
+                                        ("rf_model", "lala_features_rep"),
+                                        ("rf_model_custodi_rep", "lala_str_rep_padd"),
+                                        ("rf_model_custodi_rep", "smiles_str_rep_padd"),
+                                        ("krr_model","lala_features_rep"),
+                                        ("krr_model_custodi_rep", "lala_str_rep_padd"),
+                                        ("krr_model_custodi_rep", "smiles_str_rep_padd"),
+                                        ("custodi_model", "lala_str_rep"),
+                                        ("custodi_model", "smiles_str_rep")
+                                        ],
+                              "exe": "/home/shaharpit/miniconda3/envs/tensorflow/bin/python"
+                            },              
+              }
 
 models_dict = {
-    "rnn": models.RNN,
-    "custodi_model": models.CustodiModel,
-    "graph_conv": models.GraphConv,
-    "krr_model": models.KrrModel,
-    "rf_model": models.RfModel,
-    "krr_model_custodi_rep": models.CustodiKrrModel,
-    "rf_model_custodi_rep": models.CustodiRfModel
+    "rnn": models.RNN(),
+    "custodi_model": models.CustodiModel(),
+    "graph_conv": models.GraphConv(),
+    "krr_model": models.KrrModel(),
+    "rf_model": models.RfModel(),
+    "krr_model_custodi_rep": models.CustodiKrrModel(),
+    "rf_model_custodi_rep": models.CustodiRfModel()
     }
 
 reps_dict = {
@@ -55,36 +62,36 @@ model_search_spaces = {
     "rnn": {
             "learning_rate": Real(1e-6, 1e-1),
             "activation": Categorical(["tanh", "relu"]),
-            "dropout_rate": Real(0, 1)
+            "dropout_rate": Real(0, 1),
+            "batch_size": Integer(16, 256)
            },
     "custodi_model": {
             "degree": Integer(1, 6),
             "alpha": Real(1e-5, 1e2),
-            "max_iter": int(1e5)
            },
     "graph_conv": {
             "n_filters": Integer(64, 256),
             "n_fully_connected_nodes": Integer(64, 256),
             "learning_rate": Real(1e-6, 1e-1),
             "batch_size": Integer(64, 256),
-            "nb_epochs": int(100)
            },
     "krr_model": {
             "alpha": Real(1e-5, 1e2),
             "kernel": Categorical(["linear", "rbf"]),
            },
     "rf_model": {
-            "n_estimators": int(500)
+            "n_estimators": Integer(100, 500)
             },
     "krr_model_custodi_rep": {
             "degree": Integer(1, 6),
             "custodi_alpha": Real(1e-5, 1e2),
-            "max_iter": int(1e5),
             "alpha": Real(1e-5, 1e2),
             "kernel": Categorical(["rbf"]),
            },
     "rf_model_custodi_rep": {
-            "n_estimators": int(500)
+            "n_estimators": Integer(100, 500),
+            "degree": Integer(1, 6),
+            "custodi_alpha": Real(1e-5, 1e2),
            }
     }
 
@@ -103,6 +110,7 @@ properties = [s.lower() for s in properties]
 # general running parameters
 cv_number = 5
 cv_n_iter = 10
+cv_njobs = 5
 fit_plot_kwargs = {"alpha": 0.2}
-parent_res_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
-test_size = 1000 # a thousand molecules test set
+parent_res_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "models")
+test_size = 8500 

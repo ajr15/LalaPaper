@@ -27,13 +27,14 @@ class OneHot (Representation):
         self.tokenization_dict = self.set_tokenization_dict(strings)
         self.max_length = max([len(s) for s in strings])
 
-    @abstractclassmethod
+    @staticmethod
     def set_tokenization_dict(strings: List[str]):
         """Method to generate standard word tokenization dictionary"""
         d = {}
-        for char in np.ravel(strings):
-            if char not in d.keys():
-                d[char] = len(d.keys())
+        for string in strings:
+            for char in string:
+                if char not in d.keys():
+                    d[char] = len(d.keys())
         return d
 
 
@@ -58,37 +59,37 @@ class OneHot (Representation):
 class LalaOneHot (OneHot):
     """LALA based one-hot"""
 
-    __name__ == "lala_one_hot_rep"
+    name = "lala_one_hot_rep"
 
 
     def __init__(self):
-        strings = read_raw_columns(["annulation"]).values
+        strings = read_raw_columns(["annulation"])["annulation"].values
         super().__init__(strings)
 
     def represent(self, molecule_ids: List[str]):
-        strings = read_raw_columns(["annulation"]).loc[molecule_ids, :]
+        strings = read_raw_columns(["annulation"]).loc[molecule_ids, :]["annulation"].values
         return [self.tokenize_string(s) for s in strings]
 
 
 class SmilesOneHot (OneHot):
     """SMILES based one-hot"""
 
-    __name__ == "smiles_one_hot_rep"
+    name = "smiles_one_hot_rep"
 
 
     def __init__(self):
-        strings = read_raw_columns(["smiles"]).values
+        strings = read_raw_columns(["smiles"])["smiles"].values
         super().__init__(strings)
 
     def represent(self, molecule_ids: List[str]):
-        strings = read_raw_columns(["smiles"]).loc[molecule_ids, :]
+        strings = read_raw_columns(["smiles"]).loc[molecule_ids, :]["smiles"].values
         return [self.tokenize_string(s) for s in strings]
 
 
 class MolConvRepresentation (Representation):
     """Representation as a deepchem.ConvMol for graph convolutions data"""
 
-    __name__ == "mol_conv_rep"
+    name = "mol_conv_rep"
     
     def tokenize_smiles(self, smiles: str):
         rdmol = Chem.MolFromSmiles(smiles, sanitize=True)
@@ -103,17 +104,17 @@ class MolConvRepresentation (Representation):
 class LalaFeatures (Representation):
     """Representation as the LALA feature vector"""
 
-    __name__ == "lala_features_rep"
+    name = "lala_features_rep"
     
     def represent(self, molecule_ids: List[str]):
-        return read_raw_columns(["smn_branches", 
-                                    "longest_A", 
-                                    "longest_L", 
-                                    "longest_L_degeneracy",
-                                    "second_longest_L",
-                                    "ratio_L",
-                                    "n_LAL",
-                                    "n_ringsiles"]).loc[molecule_ids, :]
+        return read_raw_columns(["n_branches", 
+                                    "longest_a", 
+                                    "longest_l", 
+                                    "longest_l_degeneracy",
+                                    "second_longest_l",
+                                    "ratio_l",
+                                    "n_lal",
+                                    "n_rings"]).loc[molecule_ids, :]
         
 
 def _padd_strings(strings: List[str]):
@@ -128,7 +129,7 @@ def _padd_strings(strings: List[str]):
 class SmilesString (Representation):
     """Representation that returns the SMILES string of the molecules as representation"""
 
-    __name__ == "smiles_str_rep"
+    name = "smiles_str_rep"
 
     def __init__(self, padd=False) -> None:
         self.padd = padd
@@ -136,7 +137,7 @@ class SmilesString (Representation):
 
     def represent(self, molecule_ids: List[str]):
         if self.padd:
-            return _padd_strings(read_raw_columns(["smiles"]).loc[molecule_ids, :])
+            return _padd_strings(read_raw_columns(["smiles"]).loc[molecule_ids, :]["smiles"].values)
         else:
             return read_raw_columns(["smiles"]).loc[molecule_ids, :]
 
@@ -144,7 +145,7 @@ class SmilesString (Representation):
 class LalaString (Representation):
     """Representation that returns the LALA string of the molecules as representation"""
 
-    __name__ == "lala_str_rep"
+    name = "lala_str_rep"
 
     
     def __init__(self, padd=False) -> None:
@@ -153,6 +154,6 @@ class LalaString (Representation):
 
     def represent(self, molecule_ids: List[str]):
         if self.padd:
-            return _padd_strings(read_raw_columns(["annulation"]).loc[molecule_ids, :])
+            return _padd_strings(read_raw_columns(["annulation"]).loc[molecule_ids, :]["annulation"].values)
         else:
             return read_raw_columns(["annulation"]).loc[molecule_ids, :]

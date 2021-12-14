@@ -1,0 +1,3 @@
+/home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev rnn smiles_one_hot_rep
+index = 11
+/home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev rnn smiles_one_hot_rep run.py /home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev rnn smiles_one_hot_rep /home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev rnn smiles_one_hot_rep  /home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev rnn smiles_one_hot_rep

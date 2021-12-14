@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH --array=1-90
+#SBATH --mem=20GB
+#SBATCH -n 5
+#SBATCH -N 1
+#SBATCH -J LALA
+#SBATCH -o /home/shaharpit/Personal/LalaPaper/results/outputs/run_%a.out
+#SBATCH -e /home/shaharpit/Personal/LalaPaper/results/errors/run_%a.out
+#SBATCH --depend=afterok:115730
+
+cd /home/shaharpit/Personal/LalaPaper/scripts
+args_file=/home/shaharpit/Personal/LalaPaper/slurm/arguments.txt
+
+# get the i-th line of the param file
+params=$(sed -n "$SLURM_ARRAY_TASK_ID"p "$args_file")
+echo $params
+# splits line by ',' to get params
+python_path=$(echo "$params" | cut -d ',' -f 1)
+property=$(echo "$params" | cut -d ',' -f 2)
+model=$(echo "$params" | cut -d ',' -f 3)
+rep=$(echo "$params" | cut -d ',' -f 4)
+
+echo "index = $SLURM_ARRAY_TASK_ID" 
+echo $python_path run.py "$model" "$rep" "$section" "$property"
+$python_path run.py "$model" "$rep" "$section" "$property"

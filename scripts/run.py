@@ -15,16 +15,21 @@ def main_run(model: BaseEstimator, rep: Representation, property: str):
     else:
         raise ValueError("Unrecognized property {}".format(property))
     # splits to train / test
-    x_train, y_train, x_test, y_test = split_train_test(X, y, settings.test_size)
+    x_train, x_test, y_train, y_test = split_train_test(X, y, settings.test_size)
     # running CV
     opt_model = run_bayes_cv(model, 
-                                settings.model_search_spaces[model.__name__],
+                                settings.model_search_spaces[model.name],
                                 x_train, 
                                 y_train, 
-                                settings.cv, 
-                                settings.cv_n_iter)
+                                settings.cv_number, 
+                                settings.cv_n_iter,
+                                settings.cv_njobs)
+    # making appropriate results directory
+    prop_dir = os.path.join(settings.parent_res_dir, property)
+    if not os.path.isdir(prop_dir):
+        os.mkdir(prop_dir)
+    res_dir = os.path.join(prop_dir, "{}_{}".format(model.name, rep.name))
     # estimating performance & saving model
-    res_dir = os.path.join(settings.parent_res_dir, "{}_{}".format(model.__name__, rep.__name__))
     analyze_model(opt_model, x_train, y_train, x_test, y_test, res_dir, **settings.fit_plot_kwargs)
 
 

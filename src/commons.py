@@ -35,6 +35,7 @@ def unnormalize(data: np.ndarray, ref_data: np.ndarray):
 def read_raw_columns(columns: List[str]):
     """Method to get raw data from specific columns"""
     df = pd.read_csv("../data/all_data.csv", index_col=0)
+    df.columns = [c.lower().strip() for c in df.columns]
     return df.loc[:, columns]
 
 
@@ -46,32 +47,33 @@ def make_data(property: str, representation):
     RETURNS:
         (tuple) X, y for the fit"""
     df = read_raw_columns([property])
-    rep = representation()
-    return np.array(rep.represent(df.index)), df.values
+    return np.array(representation.represent(df.index)), df.values
 
 
 def split_train_test(X, y, test_size: int, random_seed=1):
     org_state = np.random.get_state()
     # setting seed for uniform results
     np.random.seed(random_seed)
-    x_train, y_train, x_test, y_test = train_test_split(X, y, test_size=test_size)
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=test_size)
     # returning to original random state (to keep consistancy with other subroutines)
     np.random.set_state(org_state)
-    return x_train, y_train, x_test, y_test
+    return x_train, x_test, y_train, y_test
 
 # hyperparameter optimization
 
-def run_bayes_cv(model: BaseEstimator, search_space: dict, X, y, cv: int, n_iter: int):
+def run_bayes_cv(model: BaseEstimator, search_space: dict, X, y, cv: int, n_iter: int, n_jobs: int):
     """Method to run a bayesian hyeperparameter optimization (using n-fold cross-validation) on a model type, given the search space.
     RETURNS:
         (Estimator) trained model (on X and y) with best hyperparameters"""
     # setting up optimizer
     searchcv = BayesSearchCV(
-        model=model,
-        search_space=search_space,
-        # TODO: set up proper n_iter and cv parameters !
+        model,
+        search_space,
         n_iter=n_iter,
-        cv=cv
+        cv=cv,
+        n_jobs=n_jobs,
+        verbose=4,
+        random_state=0
     )
     # running bayesian optimization (with normalized y)
     searchcv.fit(X, normalize(y))
@@ -116,7 +118,7 @@ def _safe_calc_sum_of_binary_func(pred, true, func) -> float:
         val = func(p, t)
         if not val == [np.inf] and not val == np.inf:
             s = s + val
-    return s[0]
+    return s
 
 
 def calc_rmse(pred, true) -> float:
@@ -148,10 +150,10 @@ def estimate_fit(model, X, y, prefix="", unnormalize_y=True) -> dict:
     if unnormalize_y:
         pred = unnormalize(pred, y)
     return {
-        prefix + "rmse": calc_rmse(pred, y),
-        prefix + "mae": calc_mae(pred, y),
-        prefix + "mare": calc_mare(pred, y),
-        prefix + "r_squared": calc_r_squared(pred, y)
+        prefix + "rmse": calc_rmse(pred, y)[0],
+        prefix + "mae": calc_mae(pred, y)[0],
+        prefix + "mare": calc_mare(pred, y)[0],
+        prefix + "r_squared": calc_r_squared(pred, y)[0]
     }
 
 def plot_fit(model, X, y, unnormalize_y=True, title="", **plot_kwargs):

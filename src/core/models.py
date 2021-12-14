@@ -27,12 +27,13 @@ from sklearn.kernel_ridge import KernelRidge
 
 class RNN (BaseEstimator):
 
-    __name__ == "rnn"
+    name = "rnn"
     
-    def __init__(self, learning_rate: float, dropout_rate: float, activation: str):
+    def __init__(self, learning_rate: float=0.001, dropout_rate: float=0.1, activation: str="tanh", batch_size: int=32):
         self.dropout_rate = dropout_rate
         self.activation = activation
         self.learning_rate = learning_rate
+        self.batch_size = batch_size
 
 
     def build_rnn(self, input_shape: tuple, learning_rate: float, dropout_rate: float, activation: str):
@@ -42,13 +43,13 @@ class RNN (BaseEstimator):
         model.add(tf.keras.layers.Dropout(dropout_rate))
         model.add(tf.keras.layers.Dense(50, activation=activation))
         model.add(tf.keras.layers.Dense(1, activation='linear'))
-        model.compile(tf.keras.optimizers.Adam(lr=learning_rate), tf.keras.losses.MSE)
+        model.compile(tf.keras.optimizers.Adam(learning_rate=learning_rate), tf.keras.losses.MSE)
         return model
     
 
-    def fit(self, X, y, **kwargs):
+    def fit(self, X, y):
         model = self.build_rnn(X.shape[1:], self.learning_rate, self.dropout_rate, self.activation)
-        model.fit(X, y, **kwargs)
+        model.fit(X, y, epochs=100, batch_size=self.batch_size)
         self.model = model
         return self
 
@@ -68,11 +69,11 @@ class RNN (BaseEstimator):
             os.mkdir(model_dir)
         self.model.save(os.path.join(model_dir, "tf_model"))
         with open(os.path.join(model_dir, "model_parameters.json"), "w") as f:
-            json.dump(self.get_params, f)
+            json.dump(self.get_params(), f)
         
 
     @staticmethod
-    def load(self, model_dir: str):
+    def load(model_dir: str):
         """Method to load model from disk. model saved at model_dir. returns loaded model"""
         tf_model = tf.keras.models.load_model(os.path.join(model_dir, "tf_model"))
         with open(os.path.join(model_dir, "model_parameters.json"), "r") as f:
@@ -91,19 +92,18 @@ class CustodiModel (BaseEstimator):
         - alpha (float): regularization constant for fitting CUSTODI's dictionary
         - max_iter (int): maximum iterations for convergence of dictionary"""
 
-    __name__ == "custodi_model"
+    name = "custodi_model"
 
-    def __init__(self, degree: int, alpha: float, max_iter: int):
+    def __init__(self, degree: int=2, alpha: float=0.1):
         self.degree = degree
         self.alpha = alpha
-        self.max_iter = max_iter
+        self.max_iter = 1e5
 
 
     @staticmethod
     def _gen_idx_dict_for_custodi(X, degree):
         char_sets = [set() for _ in range(degree)]
-        for vec in X:
-            string = vec[0]
+        for string in X:
             for idx in range(len(string)):
                 for i, s in enumerate(char_sets):
                     try:
@@ -142,7 +142,7 @@ class CustodiModel (BaseEstimator):
         for key, c in zip(idx_dict.keys(), reg.coef_[0]):
             d[key] = c
         self.dictionary = d
-        self.intercept = reg.intercept_
+        self.intercept = reg.intercept_[0]
         return self
 
     
@@ -194,9 +194,10 @@ class CustodiModel (BaseEstimator):
     @staticmethod
     def load(model_dir: str):
         """Method to load model from disk. model saved at model_dir. returns loaded model"""
-        with open(os.path.join(model_dir, "model_parameters.json"), "w") as f:
-            model = CustodiModel(**json.load(f))
-        with open(os.path.join(model_dir, "tok_parameters.json"), "w") as f:
+        with open(os.path.join(model_dir, "model_parameters.json"), "r") as f:
+            d = json.load(f)
+            model = CustodiModel(**d)
+        with open(os.path.join(model_dir, "tok_parameters.json"), "r") as f:
             d = json.load(f)
             model.dictionary = d["dictionary"]
             model.intercept = d["intercept"]
@@ -205,14 +206,14 @@ class CustodiModel (BaseEstimator):
 
 class GraphConv (BaseEstimator):
 
-    __name__ == "graph_conv"
+    name = "graph_conv"
     
-    def __init__(self, learning_rate: float, n_filters: int, n_fully_connected_nodes: int, batch_size: int, nb_epochs: int):
+    def __init__(self, learning_rate: float=0.001, n_filters: int=64, n_fully_connected_nodes: int=64, batch_size: int=128):
         self.n_filters = n_filters
         self.n_fully_connected_nodes = n_fully_connected_nodes
         self.learning_rate = learning_rate
         self.batch_size = batch_size
-        self.nb_epochs = nb_epochs
+        self.nb_epochs = 100
 
     def fit(self, X, y):
         # build data for training
@@ -271,7 +272,7 @@ class CustodiRepModel (BaseEstimator):
     It is easier to implement it as a model as the CV will be on both CUSTODI and the model's arguments"""
 
     def fit_custodi(self, X, y):
-        custodi_model = CustodiModel(self.degree, self.custodi_alpha, self.max_iter)
+        custodi_model = CustodiModel(self.degree, self.custodi_alpha)
         custodi_model.fit(X, y)
         self.custodi_model = custodi_model
         self.padd_length = max([len(x) for x in X])
@@ -318,14 +319,14 @@ class CustodiRepModel (BaseEstimator):
 
 class CustodiKrrModel (CustodiRepModel):
 
-    __name__ == "krr_model_custodi_rep"
+    name = "krr_model_custodi_rep"
 
-    def __init__(self, alpha: float, kernel: str, degree: int, custodi_alpha: float, max_iter: int):
+    def __init__(self, alpha: float=0.1, kernel: str="rbf", degree: int=2, custodi_alpha: float=0.1):
         self.alpha = alpha
         self.kernel = kernel
         self.degree = degree
         self.custodi_alpha = custodi_alpha
-        self.max_iter = max_iter
+        self.max_iter = 1e5
 
     def fit(self, X, y):
         # train custodi tokenizer
@@ -342,13 +343,14 @@ class CustodiKrrModel (CustodiRepModel):
 
 class CustodiRfModel (CustodiRepModel):
 
-    __name__ == "rf_model_custodi_rep"
+    name = "rf_model_custodi_rep"
 
     
-    def __init__(self, degree: int, custodi_alpha: float, max_iter: int):
+    def __init__(self, n_estimators: int=100, degree: int=2, custodi_alpha: float=0.1):
         self.degree = degree
         self.custodi_alpha = custodi_alpha
-        self.max_iter = max_iter
+        self.n_estimators = n_estimators
+        self.max_iter = 1e5
 
     def fit(self, X, y):
         # train custodi tokenizer
@@ -356,7 +358,7 @@ class CustodiRfModel (CustodiRepModel):
         # tokenize using custodi
         tok_X = self.custodi_model.transform(X)
         # build model
-        sk_model = RfModel(n_jobs=-1)
+        sk_model = RfModel(n_jobs=1)
         # train
         sk_model.fit(tok_X, y)
         self.model = sk_model
@@ -365,7 +367,7 @@ class CustodiRfModel (CustodiRepModel):
 
 class KrrModel (KernelRidge):
 
-    __name__ == "krr_model"
+    name = "krr_model"
 
     def score(self, X, y):
         pred = self.predict(X)
@@ -392,8 +394,7 @@ class KrrModel (KernelRidge):
 
 class RfModel (RandomForestRegressor):
 
-    __name__ == "rf_model"
-
+    name = "rf_model"
 
     def score(self, X, y):
         pred = self.predict(X)
