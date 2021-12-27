@@ -1,3 +1,70 @@
-/home/shaharpit/miniconda3/envs/tensorflow/bin/python dipmom_debye rnn smiles_one_hot_rep
+/home/shaharpit/miniconda3/envs/tensorflow/bin/python dipmom_debye graph_conv mol_conv_rep 2500
+/home/shaharpit/miniconda3/envs/tensorflow/bin/python
 index = 13
-/home/shaharpit/miniconda3/envs/tensorflow/bin/python dipmom_debye rnn smiles_one_hot_rep run.py /home/shaharpit/miniconda3/envs/tensorflow/bin/python dipmom_debye rnn smiles_one_hot_rep /home/shaharpit/miniconda3/envs/tensorflow/bin/python dipmom_debye rnn smiles_one_hot_rep  /home/shaharpit/miniconda3/envs/tensorflow/bin/python dipmom_debye rnn smiles_one_hot_rep
+/home/shaharpit/miniconda3/envs/tensorflow/bin/python ../scripts/run.py graph_conv mol_conv_rep dipmom_debye 2500
+====================================================================================================================================================================
+                            Running for model graph_conv with representation mol_conv_rep for dipmom_debye property with 2500 test points
+====================================================================================================================================================================
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 4/5] END batch_size=143, learning_rate=0.06760827480818249, n_filters=184, n_fully_connected_nodes=188;, score=-0.521 total time=594.3min
+[CV 5/5] END batch_size=143, learning_rate=0.06760827480818249, n_filters=184, n_fully_connected_nodes=188;, score=-1.076 total time=599.2min
+[CV 1/5] END batch_size=143, learning_rate=0.06760827480818249, n_filters=184, n_fully_connected_nodes=188;, score=-1.323 total time=602.6min
+[CV 2/5] END batch_size=143, learning_rate=0.06760827480818249, n_filters=184, n_fully_connected_nodes=188;, score=-1.327 total time=603.4min
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 3/5] END batch_size=143, learning_rate=0.06760827480818249, n_filters=184, n_fully_connected_nodes=188;, score=-0.558 total time=609.6min
+[CV 1/5] END batch_size=78, learning_rate=0.09789038693897774, n_filters=238, n_fully_connected_nodes=179;, score=-1.278 total time=742.9min
+[CV 5/5] END batch_size=78, learning_rate=0.09789038693897774, n_filters=238, n_fully_connected_nodes=179;, score=-0.532 total time=745.5min
+[CV 2/5] END batch_size=78, learning_rate=0.09789038693897774, n_filters=238, n_fully_connected_nodes=179;, score=-0.928 total time=747.6min
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 3/5] END batch_size=78, learning_rate=0.09789038693897774, n_filters=238, n_fully_connected_nodes=179;, score=-0.882 total time=754.6min
+[CV 2/5] END batch_size=143, learning_rate=0.005790726471509332, n_filters=130, n_fully_connected_nodes=101;, score=-0.433 total time=378.4min
+[CV 4/5] END batch_size=78, learning_rate=0.09789038693897774, n_filters=238, n_fully_connected_nodes=179;, score=-0.954 total time=750.4min
+[CV 1/5] END batch_size=143, learning_rate=0.005790726471509332, n_filters=130, n_fully_connected_nodes=101;, score=-0.480 total time=388.7min
+[CV 3/5] END batch_size=143, learning_rate=0.005790726471509332, n_filters=130, n_fully_connected_nodes=101;, score=-0.407 total time=396.2min
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 5/5] END batch_size=143, learning_rate=0.005790726471509332, n_filters=130, n_fully_connected_nodes=101;, score=-0.409 total time=403.4min
+[CV 2/5] END batch_size=51, learning_rate=0.07832684380102871, n_filters=154, n_fully_connected_nodes=151;, score=-0.486 total time=486.9min
+[CV 4/5] END batch_size=51, learning_rate=0.07832684380102871, n_filters=154, n_fully_connected_nodes=151;, score=-0.491 total time=493.3min
+[CV 5/5] END batch_size=51, learning_rate=0.07832684380102871, n_filters=154, n_fully_connected_nodes=151;, score=-0.491 total time=493.4min
+[CV 4/5] END batch_size=143, learning_rate=0.005790726471509332, n_filters=130, n_fully_connected_nodes=101;, score=-0.420 total time=403.1min
+[CV 1/5] END batch_size=51, learning_rate=0.07832684380102871, n_filters=154, n_fully_connected_nodes=151;, score=-0.486 total time=503.2min
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 3/5] END batch_size=51, learning_rate=0.07832684380102871, n_filters=154, n_fully_connected_nodes=151;, score=-0.568 total time=522.7min
+[CV 1/5] END batch_size=72, learning_rate=0.024334350210904434, n_filters=204, n_fully_connected_nodes=119;, score=-0.446 total time=549.6min
+[CV 3/5] END batch_size=72, learning_rate=0.024334350210904434, n_filters=204, n_fully_connected_nodes=119;, score=-0.413 total time=547.3min
+[CV 2/5] END batch_size=72, learning_rate=0.024334350210904434, n_filters=204, n_fully_connected_nodes=119;, score=-0.424 total time=552.0min
+[CV 4/5] END batch_size=72, learning_rate=0.024334350210904434, n_filters=204, n_fully_connected_nodes=119;, score=-0.430 total time=552.5min
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 2/5] END batch_size=217, learning_rate=0.09912241416523597, n_filters=205, n_fully_connected_nodes=157;, score=-0.720 total time=634.6min
+[CV 3/5] END batch_size=217, learning_rate=0.09912241416523597, n_filters=205, n_fully_connected_nodes=157;, score=-0.951 total time=643.1min
+[CV 5/5] END batch_size=217, learning_rate=0.09912241416523597, n_filters=205, n_fully_connected_nodes=157;, score=-0.505 total time=647.5min
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 5/5] END batch_size=72, learning_rate=0.024334350210904434, n_filters=204, n_fully_connected_nodes=119;, score=-0.394 total time=571.1min
+[CV 1/5] END batch_size=217, learning_rate=0.09912241416523597, n_filters=205, n_fully_connected_nodes=157;, score=-0.589 total time=662.9min
+[CV 2/5] END batch_size=248, learning_rate=0.07565553405129892, n_filters=146, n_fully_connected_nodes=99;, score=-0.626 total time=433.4min
+[CV 4/5] END batch_size=217, learning_rate=0.09912241416523597, n_filters=205, n_fully_connected_nodes=157;, score=-0.622 total time=660.5min
+[CV 1/5] END batch_size=248, learning_rate=0.07565553405129892, n_filters=146, n_fully_connected_nodes=99;, score=-0.406 total time=433.7min
+[CV 3/5] END batch_size=248, learning_rate=0.07565553405129892, n_filters=146, n_fully_connected_nodes=99;, score=-0.713 total time=437.1min
+[CV 4/5] END batch_size=248, learning_rate=0.07565553405129892, n_filters=146, n_fully_connected_nodes=99;, score=-0.489 total time=437.8min
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 5/5] END batch_size=248, learning_rate=0.07565553405129892, n_filters=146, n_fully_connected_nodes=99;, score=-0.458 total time=443.0min
+[CV 1/5] END batch_size=139, learning_rate=0.05269837615247054, n_filters=203, n_fully_connected_nodes=69;, score=-0.426 total time=580.4min
+[CV 5/5] END batch_size=139, learning_rate=0.05269837615247054, n_filters=203, n_fully_connected_nodes=69;, score=-0.573 total time=579.0min
+[CV 4/5] END batch_size=139, learning_rate=0.05269837615247054, n_filters=203, n_fully_connected_nodes=69;, score=-0.935 total time=582.3min
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 5/5] END batch_size=38, learning_rate=0.08961736561325004, n_filters=216, n_fully_connected_nodes=243;, score=-0.931 total time=743.8min
+[CV 3/5] END batch_size=38, learning_rate=0.08961736561325004, n_filters=216, n_fully_connected_nodes=243;, score=-1.199 total time=750.0min
+[CV 3/5] END batch_size=139, learning_rate=0.05269837615247054, n_filters=203, n_fully_connected_nodes=69;, score=-0.771 total time=593.7min
+[CV 2/5] END batch_size=38, learning_rate=0.08961736561325004, n_filters=216, n_fully_connected_nodes=243;, score=-0.832 total time=756.5min
+[CV 4/5] END batch_size=38, learning_rate=0.08961736561325004, n_filters=216, n_fully_connected_nodes=243;, score=-0.705 total time=760.7min
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+[CV 2/5] END batch_size=139, learning_rate=0.05269837615247054, n_filters=203, n_fully_connected_nodes=69;, score=-0.501 total time=591.0min
+[CV 1/5] END batch_size=38, learning_rate=0.08961736561325004, n_filters=216, n_fully_connected_nodes=243;, score=-0.605 total time=780.8min
+[CV 1/5] END batch_size=105, learning_rate=0.04401892319025642, n_filters=114, n_fully_connected_nodes=217;, score=-0.834 total time=420.7min
+[CV 3/5] END batch_size=105, learning_rate=0.04401892319025642, n_filters=114, n_fully_connected_nodes=217;, score=-0.501 total time=420.8min
+[CV 5/5] END batch_size=105, learning_rate=0.04401892319025642, n_filters=114, n_fully_connected_nodes=217;, score=-0.993 total time=422.5min
+[CV 2/5] END batch_size=105, learning_rate=0.04401892319025642, n_filters=114, n_fully_connected_nodes=217;, score=-0.455 total time=423.0min
+[CV 4/5] END batch_size=105, learning_rate=0.04401892319025642, n_filters=114, n_fully_connected_nodes=217;, score=-0.481 total time=424.8min
+==================================================
+          COMPUTATION ENDED SUCCESSFULLY
+==================================================

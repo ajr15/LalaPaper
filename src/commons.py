@@ -6,8 +6,6 @@ from skopt import BayesSearchCV
 from sklearn.model_selection import train_test_split
 import os
 
-from .core.models import BaseEstimator
-
 
 # data handling utils
 
@@ -47,7 +45,11 @@ def make_data(property: str, representation):
     RETURNS:
         (tuple) X, y for the fit"""
     df = read_raw_columns([property])
-    return np.array(representation.represent(df.index)), df.values
+    if not "etot" in property.lower():
+        return np.array(representation.represent(df.index)), df.values
+    else:
+        # doing size normalization for total energy properties
+        return np.array(representation.represent(df.index)), df.values / (30 + read_raw_columns(["n_rings"]).values * 18)
 
 
 def split_train_test(X, y, test_size: int, random_seed=1):
@@ -61,7 +63,7 @@ def split_train_test(X, y, test_size: int, random_seed=1):
 
 # hyperparameter optimization
 
-def run_bayes_cv(model: BaseEstimator, search_space: dict, X, y, cv: int, n_iter: int, n_jobs: int):
+def run_bayes_cv(model, search_space: dict, X, y, cv: int, n_iter: int, n_jobs: int):
     """Method to run a bayesian hyeperparameter optimization (using n-fold cross-validation) on a model type, given the search space.
     RETURNS:
         (Estimator) trained model (on X and y) with best hyperparameters"""
@@ -81,7 +83,7 @@ def run_bayes_cv(model: BaseEstimator, search_space: dict, X, y, cv: int, n_iter
     return searchcv.best_estimator_
 
 
-def analyze_model(model: BaseEstimator, x_train, y_train, x_test, y_test, results_directory: str, **plot_kwargs):
+def analyze_model(model, x_train, y_train, x_test, y_test, results_directory: str, **plot_kwargs):
     """Method to analyze fit of an estimator and save it in a target results directory. saves the following data
         - fit scores on both train and test sets
         - fit plots for train and test sets

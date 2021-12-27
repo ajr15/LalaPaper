@@ -1,1 +1,114 @@
-/home/shaharpit/miniconda3/envs/tensorflow/bin/python: can't open file 'lumo_ev': [Errno 2] No such file or directory
+2021-12-18 13:51:15.602346: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2021-12-18 13:51:15.608242: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2021-12-18 13:51:25.570511: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2021-12-18 13:51:25.570513: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2021-12-18 13:51:25.570543: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2021-12-18 13:51:25.570547: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2021-12-18 13:51:25.591187: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2021-12-18 13:51:25.591217: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2021-12-18 13:51:25.658091: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2021-12-18 13:51:25.658125: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+2021-12-18 13:51:25.751971: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory
+2021-12-18 13:51:25.751998: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)
+/home/shaharpit/Personal/LalaPaper/src/core/models.py:363: DataConversionWarning: A column-vector y was passed when a 1d array was expected. Please change the shape of y to (n_samples,), for example using ravel().
+  sk_model.fit(tok_X, y)

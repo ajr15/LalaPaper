@@ -72,8 +72,10 @@ model_search_spaces = {
     "graph_conv": {
             "n_filters": Integer(64, 256),
             "n_fully_connected_nodes": Integer(64, 256),
+            #"n_pair_feat": Integer(5, 25),
+            #"n_hidden": Integer(50, 300),
             "learning_rate": Real(1e-6, 1e-1),
-            "batch_size": Integer(64, 256),
+            "batch_size": Integer(16, 256),
            },
     "krr_model": {
             "alpha": Real(1e-5, 1e2),
@@ -113,4 +115,4 @@ cv_n_iter = 10
 cv_njobs = 5
 fit_plot_kwargs = {"alpha": 0.2}
 parent_res_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "models")
-test_size = 8500 
+test_size = 1000 

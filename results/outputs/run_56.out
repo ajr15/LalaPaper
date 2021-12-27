@@ -1,3 +1,70 @@
-/home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev krr_model_custodi_rep lala_str_rep_padd
+/home/shaharpit/miniconda3/envs/tensorflow/bin/python homo_ev rf_model_custodi_rep smiles_str_rep_padd 1000
+/home/shaharpit/miniconda3/envs/tensorflow/bin/python
 index = 56
-/home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev krr_model_custodi_rep lala_str_rep_padd run.py /home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev krr_model_custodi_rep lala_str_rep_padd /home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev krr_model_custodi_rep lala_str_rep_padd  /home/shaharpit/miniconda3/envs/tensorflow/bin/python lumo_ev krr_model_custodi_rep lala_str_rep_padd
+/home/shaharpit/miniconda3/envs/tensorflow/bin/python ../scripts/run.py rf_model_custodi_rep smiles_str_rep_padd homo_ev 1000
+======================================================================================================================================================================================
+                              Running for model rf_model_custodi_rep with representation smiles_str_rep_padd for homo_ev property with 1000 test points
+======================================================================================================================================================================================
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+Fitting 5 folds for each of 1 candidates, totalling 5 fits
+==================================================
+          COMPUTATION ENDED SUCCESSFULLY
+==================================================
+[CV 3/5] END custodi_alpha=53.09642118557309, degree=4, n_estimators=349;, score=-0.233 total time=  24.0s
+[CV 3/5] END custodi_alpha=25.837173613558193, degree=6, n_estimators=463;, score=-0.224 total time=  40.1s
+[CV 3/5] END custodi_alpha=52.86917892062767, degree=1, n_estimators=237;, score=-0.247 total time=  15.6s
+[CV 5/5] END custodi_alpha=14.741989720919053, degree=5, n_estimators=288;, score=-0.242 total time=  32.9s
+[CV 3/5] END custodi_alpha=23.251410497886212, degree=2, n_estimators=391;, score=-0.226 total time=  13.1s
+[CV 4/5] END custodi_alpha=83.81663987365626, degree=6, n_estimators=393;, score=-0.224 total time=  27.6s
+[CV 1/5] END custodi_alpha=96.71312281711774, degree=5, n_estimators=271;, score=-0.231 total time=  36.5s
+[CV 4/5] END custodi_alpha=51.04890953695797, degree=4, n_estimators=389;, score=-0.236 total time=  30.6s
+[CV 3/5] END custodi_alpha=9.205458769976614, degree=5, n_estimators=417;, score=-0.212 total time=  42.6s
+[CV 2/5] END custodi_alpha=36.953704044682475, degree=3, n_estimators=205;, score=-0.231 total time=  25.5s
+[CV 5/5] END custodi_alpha=53.09642118557309, degree=4, n_estimators=349;, score=-0.235 total time=  24.4s
+[CV 5/5] END custodi_alpha=25.837173613558193, degree=6, n_estimators=463;, score=-0.228 total time=  37.3s
+[CV 1/5] END custodi_alpha=52.86917892062767, degree=1, n_estimators=237;, score=-0.256 total time=  13.2s
+[CV 3/5] END custodi_alpha=14.741989720919053, degree=5, n_estimators=288;, score=-0.234 total time=  38.1s
+[CV 4/5] END custodi_alpha=23.251410497886212, degree=2, n_estimators=391;, score=-0.237 total time=  12.8s
+[CV 3/5] END custodi_alpha=83.81663987365626, degree=6, n_estimators=393;, score=-0.226 total time=  40.0s
+[CV 5/5] END custodi_alpha=96.71312281711774, degree=5, n_estimators=271;, score=-0.229 total time=  31.7s
+[CV 1/5] END custodi_alpha=51.04890953695797, degree=4, n_estimators=389;, score=-0.239 total time=  23.4s
+[CV 1/5] END custodi_alpha=9.205458769976614, degree=5, n_estimators=417;, score=-0.244 total time=  44.9s
+[CV 3/5] END custodi_alpha=36.953704044682475, degree=3, n_estimators=205;, score=-0.229 total time=  26.5s
+[CV 2/5] END custodi_alpha=53.09642118557309, degree=4, n_estimators=349;, score=-0.225 total time=  22.6s
+[CV 2/5] END custodi_alpha=25.837173613558193, degree=6, n_estimators=463;, score=-0.220 total time=  40.4s
+[CV 4/5] END custodi_alpha=52.86917892062767, degree=1, n_estimators=237;, score=-0.247 total time=  15.6s
+[CV 4/5] END custodi_alpha=14.741989720919053, degree=5, n_estimators=288;, score=-0.223 total time=  31.6s
+[CV 2/5] END custodi_alpha=23.251410497886212, degree=2, n_estimators=391;, score=-0.244 total time=  14.1s
+[CV 5/5] END custodi_alpha=83.81663987365626, degree=6, n_estimators=393;, score=-0.240 total time=  34.9s
+[CV 3/5] END custodi_alpha=96.71312281711774, degree=5, n_estimators=271;, score=-0.222 total time=  33.5s
+[CV 3/5] END custodi_alpha=51.04890953695797, degree=4, n_estimators=389;, score=-0.221 total time=  33.6s
+[CV 5/5] END custodi_alpha=9.205458769976614, degree=5, n_estimators=417;, score=-0.230 total time=  45.4s
+[CV 5/5] END custodi_alpha=36.953704044682475, degree=3, n_estimators=205;, score=-0.240 total time=  27.7s
+[CV 4/5] END custodi_alpha=53.09642118557309, degree=4, n_estimators=349;, score=-0.233 total time=  21.7s
+[CV 1/5] END custodi_alpha=25.837173613558193, degree=6, n_estimators=463;, score=-0.225 total time=  38.7s
+[CV 2/5] END custodi_alpha=52.86917892062767, degree=1, n_estimators=237;, score=-0.247 total time=  12.3s
+[CV 1/5] END custodi_alpha=14.741989720919053, degree=5, n_estimators=288;, score=-0.230 total time=  31.2s
+[CV 1/5] END custodi_alpha=23.251410497886212, degree=2, n_estimators=391;, score=-0.248 total time=  12.7s
+[CV 2/5] END custodi_alpha=83.81663987365626, degree=6, n_estimators=393;, score=-0.230 total time=  33.9s
+[CV 2/5] END custodi_alpha=96.71312281711774, degree=5, n_estimators=271;, score=-0.234 total time=  32.4s
+[CV 2/5] END custodi_alpha=51.04890953695797, degree=4, n_estimators=389;, score=-0.244 total time=  33.4s
+[CV 4/5] END custodi_alpha=9.205458769976614, degree=5, n_estimators=417;, score=-0.237 total time=  45.3s
+[CV 4/5] END custodi_alpha=36.953704044682475, degree=3, n_estimators=205;, score=-0.230 total time=  28.2s
+[CV 1/5] END custodi_alpha=53.09642118557309, degree=4, n_estimators=349;, score=-0.246 total time=  24.6s
+[CV 4/5] END custodi_alpha=25.837173613558193, degree=6, n_estimators=463;, score=-0.231 total time=  40.4s
+[CV 5/5] END custodi_alpha=52.86917892062767, degree=1, n_estimators=237;, score=-0.259 total time=  12.5s
+[CV 2/5] END custodi_alpha=14.741989720919053, degree=5, n_estimators=288;, score=-0.231 total time=  38.5s
+[CV 5/5] END custodi_alpha=23.251410497886212, degree=2, n_estimators=391;, score=-0.244 total time=  12.3s
+[CV 1/5] END custodi_alpha=83.81663987365626, degree=6, n_estimators=393;, score=-0.238 total time=  39.4s
+[CV 4/5] END custodi_alpha=96.71312281711774, degree=5, n_estimators=271;, score=-0.230 total time=  38.0s
+[CV 5/5] END custodi_alpha=51.04890953695797, degree=4, n_estimators=389;, score=-0.257 total time=  29.7s
+[CV 2/5] END custodi_alpha=9.205458769976614, degree=5, n_estimators=417;, score=-0.235 total time=  41.1s
+[CV 1/5] END custodi_alpha=36.953704044682475, degree=3, n_estimators=205;, score=-0.243 total time=  28.5s

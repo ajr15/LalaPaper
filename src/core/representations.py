@@ -91,14 +91,16 @@ class MolConvRepresentation (Representation):
 
     name = "mol_conv_rep"
     
-    def tokenize_smiles(self, smiles: str):
-        rdmol = Chem.MolFromSmiles(smiles, sanitize=True)
-        featurizer = dc.feat.ConvMolFeaturizer()
+    def rdmols_from_smiles(self, smiles_list: List[str]):
+        return [Chem.MolFromSmiles(smiles, sanitize=True) for smiles in smiles_list]
+        #featurizer = dc.feat.ConvMolFeaturizer()
         return featurizer.featurize(rdmol)
 
     def represent(self, molecule_ids: List[str]):
-        strings = read_raw_columns(["smiles"]).loc[molecule_ids, :]
-        return [self.tokenize_smiles(s) for s in strings]
+        strings = read_raw_columns(["smiles"])["smiles"].values
+        featurizer = dc.feat.ConvMolFeaturizer()
+        #featurizer = dc.feat.MolGraphConvFeaturizer()
+        return featurizer.featurize(strings)
 
 
 class LalaFeatures (Representation):
@@ -139,7 +141,7 @@ class SmilesString (Representation):
         if self.padd:
             return _padd_strings(read_raw_columns(["smiles"]).loc[molecule_ids, :]["smiles"].values)
         else:
-            return read_raw_columns(["smiles"]).loc[molecule_ids, :]
+            return read_raw_columns(["smiles"]).loc[molecule_ids, :]["smiles"].values
 
 
 class LalaString (Representation):
@@ -156,4 +158,4 @@ class LalaString (Representation):
         if self.padd:
             return _padd_strings(read_raw_columns(["annulation"]).loc[molecule_ids, :]["annulation"].values)
         else:
-            return read_raw_columns(["annulation"]).loc[molecule_ids, :]
+            return read_raw_columns(["annulation"]).loc[molecule_ids, :]["annulation"].values

@@ -213,7 +213,13 @@ class GraphConv (BaseEstimator):
         self.n_fully_connected_nodes = n_fully_connected_nodes
         self.learning_rate = learning_rate
         self.batch_size = batch_size
-        self.nb_epochs = 100
+        self.nb_epochs = 500
+    
+    #def __init__(self, learning_rate: float=0.001, n_hidden: int=64, n_pair_feat: int=64, batch_size: int=128):
+    #    self.n_hidden = n_hidden
+    #    self.n_pair_feat = n_pair_feat
+    #    self.learning_rate = learning_rate
+    #    self.batch_size = batch_size
 
     def fit(self, X, y):
         # build data for training
@@ -224,9 +230,15 @@ class GraphConv (BaseEstimator):
                         dense_layer_size=self.n_fully_connected_nodes, 
                         batch_size=self.batch_size,
                         learning_rate=self.learning_rate,
-                        nb_epochs=self.nb_epochs,
-                        mode='regression')
-        model.fit(dataset)
+                        mode='regression',
+                        number_atom_features=100)
+        #model = dc.models.MPNNModel(n_tasks=1,
+        #                n_hidden=self.n_hidden,
+        #                n_pair_feat=self.n_pair_feat,
+        #                batch_size=self.batch_size,
+        #                learning_rate=self.learning_rate,
+        #                mode='regression')
+        model.fit(dataset, nb_epoch=1000)
         self.model = model
         return self
 
@@ -244,7 +256,7 @@ class GraphConv (BaseEstimator):
         """Method to save the model to disk. saving to model_dir"""
         if not os.path.isdir(model_dir):
             os.mkdir(model_dir)
-        self.model.model.save(os.path.join(model_dir, "tf_model"))
+        #self.model.model.save(os.path.join(model_dir, "tf_model"))
         with open(os.path.join(model_dir, "model_parameters.json"), "w") as f:
             json.dump(self.get_params(), f)
 
