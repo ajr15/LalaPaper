@@ -1,6 +1,8 @@
 """Script to convert the raw into single CSV file and remove unwanted entries"""
 import pandas as pd
 from rdkit import Chem
+from matplotlib import image, pyplot as plt
+import os
 
 
 def is_rdkit_readable(smiles: str) -> bool:
@@ -15,7 +17,7 @@ def is_rdkit_readable(smiles: str) -> bool:
 def get_valid_molecule_dataframe():
     """Method to get the rdkit readable molecules with at least 3 benzene rings. Returns a dataframe with valid molecule IDs and their SMILES"""
     # reading data
-    mdf = pd.read_csv('../../data/raw/goodstructures_smiles_noLin5.csv', sep=' ')
+    mdf = pd.read_csv('../data/raw/goodstructures_smiles_noLin5.csv', sep=' ')
     print("number of molecules before filtration:", len(mdf))
     # removing all molecules with less than 3 rings
     mdf = mdf[~mdf.molecule_id.str.contains('c46h26')].reset_index(drop=True)
@@ -41,10 +43,79 @@ def join_all_dataframes(calculated_df, stractural_df, smiles_df):
     res = pd.merge(res, calculated_df, left_index=True, right_index=True)
     return res
 
+def get_unique_compositions(molecule_ids):
+    """Method to get all the unique compositions (CxHy) from the molecule ids"""
+    comps = set()
+    for s in molecule_ids:
+        comp = s.split("_")[1]
+        comps.add(comp)
+    return list(comps)
+
+def calc_atom_energy(comp):
+    """Method to calculate the energy of C and H in the gas phase, for atomization energy calculation. given composition (CxHy)"""
+    carbon_gas_energy_ev = -840
+    hydrogen_gas_energy_ev = -210
+    num_c = int(comp.split("h")[0][1:])
+    num_h = int(comp.split("h")[-1])
+    return num_c * carbon_gas_energy_ev + num_h * hydrogen_gas_energy_ev, 1
+
+def calculate_relative_energy(energy_df: pd.DataFrame):
+    """Method to calculate the relative energy of the molecules in the dataset (energy = min(isomer energy) - e_isomer)"""
+    compositions = get_unique_compositions(energy_df.index)
+    res = pd.DataFrame()
+    for comp in compositions:
+        res = res.append(energy_df[energy_df.index.str.contains(comp)] - energy_df[energy_df.index.str.contains(comp)].min())
+    res.columns = ["rel_" + col for col in res.columns]
+    return res
+
+def calculate_atomization_energy(energy_df: pd.DataFrame):
+    """Method to calculate the atomization energy of the molecules in the dataset"""
+    compositions = get_unique_compositions(energy_df.index)
+    res = pd.DataFrame()
+    for comp in compositions:
+        energy, factor = calc_atom_energy(comp)
+        res = res.append((energy_df[energy_df.index.str.contains(comp)] - energy) / factor)
+    res.columns = ["atom_" + col for col in res.columns]
+    return res
+
+def plot_correlation(df, prop1, prop2, image_path):
+    print("plotting {} vs. {}".format(prop1, prop2))
+    plt.figure()
+    plt.scatter(df[prop1], df[prop2], color="black", alpha=0.5)
+    plt.xlabel(prop1)
+    plt.ylabel(prop2)
+    plt.savefig(image_path)
+    plt.close()
+
+
+def plot_hist(df, prop, image_path):
+    print("plotting {} histogram".format(prop))
+    plt.figure()
+    plt.hist(df[prop], color="black", bins=100)
+    plt.title(prop)
+    plt.savefig(image_path)
+    plt.close()
+
+
+def make_plots(df):
+    im_dir = "../results/stats"
+    if not os.path.isdir(im_dir):
+        os.makedirs(im_dir)
+    for i, col1 in enumerate(df.columns):
+        plot_hist(df, col1, os.path.join(im_dir, "hists/{}.png".format(col1)))
+        for col2 in df.columns[(i + 1):]:
+            plot_correlation(df, col1, col2, os.path.join(im_dir, "corr/{}_vs_{}.png".format(col1, col2)))
+
 
 if __name__ == "__main__":
-    calculated_df = pd.read_csv('../../data/raw/outputDFT.csv', index_col=0)
-    structural_df = pd.read_csv('../../data/raw/structural_features.csv', index_col=0)
+    calculated_df = pd.read_csv('../data/raw/outputDFT.csv', index_col=0)
+    structural_df = pd.read_csv('../data/raw/structural_features.csv', index_col=0)
     smiles_df = get_valid_molecule_dataframe()
     res = join_all_dataframes(calculated_df, structural_df, smiles_df)
-    res.to_csv("../../data/all_data.csv")
+    # adding relative energy
+    rel_e = calculate_relative_energy(res.loc[:, ["Etot_eV", "Etot_pos_eV", "Etot_neg_eV"]])
+    atom_e = calculate_atomization_energy(res.loc[:, ["Etot_eV", "Etot_pos_eV", "Etot_neg_eV"]])
+    res = pd.merge(res, rel_e, left_index=True, right_index=True)
+    res = pd.merge(res, atom_e, left_index=True, right_index=True)
+    make_plots(res.iloc[:, 3:])
+    res.to_csv("../data/all_data.csv")
