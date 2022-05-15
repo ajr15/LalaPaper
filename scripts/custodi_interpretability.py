@@ -26,7 +26,6 @@ def ngram_counter(strings, degree):
     return {k: v / len(strings) for k, v in char_dict.items()}
     
 def calc_weights(property, custodi_dict, custodi_intercept, ngram_dict):
-    print(ngram_dict)
     normalized_weights = np.array([custodi_dict[k] * ngram_dict[k] for k in custodi_dict.keys()] + [custodi_intercept])
     normalized_weights = normalized_weights / (np.sum(normalized_weights) + custodi_intercept)
     normalized_weights_d = {k: x for k, x in zip(list(custodi_dict.keys()) + ["intercept"], normalized_weights)}
@@ -81,7 +80,7 @@ if __name__ == "__main__":
             d = plot_property(property, 1000, base_str, 0.01)
             d["property"] = property
             res = res.append(d, ignore_index=True)
-        res.to_csv(base_str + ".csv")
+        res.to_csv("../results/feature_importance/custodi_{}.csv".format(base_str))
         plt.title(base_str)
         legend_without_duplicate_labels(plt.gca())
-        plt.savefig("./{}.png".format(base_str))
+        plt.savefig("../results/feature_importance/custodi_{}.png".format(base_str))

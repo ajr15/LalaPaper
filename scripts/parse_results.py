@@ -1,4 +1,5 @@
 import pandas as pd
+import json
 import os
 
 model_rep_pairs = [
@@ -35,12 +36,33 @@ def unite_all_results_to_csv(parent_res_dir, error_measure):
                 main_df = main_df.append(res_d, ignore_index=True)
     test_size = os.path.split(parent_res_dir)[-1]
     main_df.to_csv(os.path.join("../results/models", "prased_results", "{}_test_{}_results.csv".format(test_size, error_measure)))
+
+
+def parse_time_data(parent_res_dir):
+    main_df = pd.DataFrame()
+    for prop_dir in os.listdir(parent_res_dir):
+        if not "test" in prop_dir and not ".csv" in prop_dir:
+            for res_dir in os.listdir(os.path.join(parent_res_dir, prop_dir)):
+                print(os.path.join(parent_res_dir, prop_dir, res_dir))
+                with open(os.path.join(parent_res_dir, prop_dir, res_dir, "run_info.json")) as f:
+                    d = json.load(f)
+                    time = d["runtime"]
+                    train_size = d["train_size"]
+                res_d = parse_results_dir_str(os.path.join(parent_res_dir, prop_dir, res_dir))
+                res_d["runtime_per_mol"] = time / train_size
+                main_df = main_df.append(res_d, ignore_index=True)
+    test_size = os.path.split(parent_res_dir)[-1]
+    main_df.to_csv(os.path.join("../results/models", "prased_results", "{}_test_time_results.csv".format(test_size)))
+
     
 if __name__ == "__main__":
     # parsing results
-    for parent in os.listdir("../results/models"):
-        unite_all_results_to_csv(os.path.join("../results/models", parent), "rmse")
-        unite_all_results_to_csv(os.path.join("../results/models", parent), "mae")
+    parent_res = "../results/models/"
+    parse_time_data(parent_res + "1000")
+    for parent in os.listdir(parent_res):
+        unite_all_results_to_csv(os.path.join(parent_res, parent), "rmse")
+        unite_all_results_to_csv(os.path.join(parent_res, parent), "mae")
+    
     # calculating metrics for data
     data = pd.read_csv("../data/all_data.csv")
     data.describe().to_csv(os.path.join("../results/models", "prased_results", "data_descrps.csv"))

@@ -107,7 +107,7 @@ def make_plots(df):
             plot_correlation(df, col1, col2, os.path.join(im_dir, "corr/{}_vs_{}.png".format(col1, col2)))
 
 
-if __name__ == "__main__":
+def parse_old_raw():
     calculated_df = pd.read_csv('../data/raw/outputDFT.csv', index_col=0)
     structural_df = pd.read_csv('../data/raw/structural_features.csv', index_col=0)
     smiles_df = get_valid_molecule_dataframe()
@@ -119,3 +119,28 @@ if __name__ == "__main__":
     res = pd.merge(res, atom_e, left_index=True, right_index=True)
     make_plots(res.iloc[:, 3:])
     res.to_csv("../data/all_data.csv")
+    
+
+def parse_new_raw():
+    # reading data from file
+    raw_df = pd.read_csv("../data/raw/raw_data_24042022.csv")
+    # dropping irrelevant values
+    raw_df = raw_df.drop(columns=["Etot_pos_eV", "Etot_neg_eV", "Dipmom_Debye", "dispersion_eV", "Etot_SCF_eV"])
+    raw_df = raw_df[~raw_df.molecule.str.contains('c46h26')].reset_index(drop=True)
+    raw_df = raw_df[~raw_df.molecule.str.contains('c6h6')].reset_index(drop=True)
+    raw_df = raw_df[~raw_df.molecule.str.contains('c10h8')].reset_index(drop=True)
+    # setting index properly
+    raw_df = raw_df.set_index("molecule")
+    # adding relative energy column
+    rel_e = calculate_relative_energy(raw_df.loc[:, ["Etot_eV"]])
+    raw_df = pd.merge(raw_df, rel_e, left_index=True, right_index=True)
+    # dropping total energy 
+    raw_df = raw_df.drop(columns=["Etot_eV"])
+    # saving to new file
+    raw_df.to_csv("../data/all_data.csv")
+    # visualizing data
+    #make_plots(raw_df.iloc[:, 2:])
+    
+    
+if __name__ == "__main__":
+    parse_new_raw()

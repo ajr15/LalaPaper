@@ -101,17 +101,17 @@ model_search_spaces = {
 properties = ["HOMO_eV",
               "LUMO_eV",
               "GAP_eV",
-              "Dipmom_Debye",
-              "Etot_eV",
-              "Etot_pos_eV",
-              "Etot_neg_eV",
+              # "Dipmom_Debye",
+              "rel_Etot_eV",
+              # "rel_Etot_pos_eV",
+              # "rel_Etot_neg_eV",
               "aEA_eV",
               "aIP_eV"]
 properties = [s.lower() for s in properties]
 
 # general running parameters
 cv_number = 5
-cv_n_iter = 10
+cv_n_iter = 5
 cv_njobs = 5
 fit_plot_kwargs = {"alpha": 0.2}
 parent_res_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results", "models")

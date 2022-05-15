@@ -98,6 +98,7 @@ class CustodiModel (BaseEstimator):
         self.degree = degree
         self.alpha = alpha
         self.max_iter = 1e5
+        self.fit_intercept = True
 
 
     @staticmethod
@@ -135,14 +136,14 @@ class CustodiModel (BaseEstimator):
                     except IndexError:
                         pass
             counts_vector.append(x)
-        reg = Ridge(fit_intercept=True, alpha=self.alpha, max_iter=self.max_iter)
+        reg = Ridge(fit_intercept=self.fit_intercept, alpha=self.alpha, max_iter=self.max_iter)
         counts_vector = np.array(counts_vector)
         reg.fit(counts_vector, y)
         d = {}
         for key, c in zip(idx_dict.keys(), reg.coef_[0]):
             d[key] = c
         self.dictionary = d
-        self.intercept = reg.intercept_[0]
+        self.intercept = reg.intercept_[0] if self.fit_intercept else 0
         return self
 
     
@@ -285,6 +286,7 @@ class CustodiRepModel (BaseEstimator):
 
     def fit_custodi(self, X, y):
         custodi_model = CustodiModel(self.degree, self.custodi_alpha)
+        custodi_model.fit_intercept = True # allowing for fitting intercept in custodi representations
         custodi_model.fit(X, y)
         self.custodi_model = custodi_model
         self.padd_length = max([len(x) for x in X])
