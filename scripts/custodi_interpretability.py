@@ -39,9 +39,12 @@ def plot_ngram_weights(property, normalized_weights_d, plot_th, color_d):
         plt.bar(property, weight, bottom=s, label=char, color=color_d[char])
         s += weight
         
-def read_custodi_data(property, test_size, base_str):
+def read_custodi_data(property, test_size, base_str, rep):
     """Method to read CUSTODI model information (dictionary + intercept) for given property and base string (LALA, SMILES)"""
-    with open("../results/models/{}/{}/custodi_model_{}_str_rep/model/tok_parameters.json".format(test_size, property.lower(), base_str.lower(), "r")) as f:
+    path = "../results/models/{}/{}/custodi_model_{}_str_rep/{}_model/tok_parameters.json".format(test_size, property.lower(), base_str.lower(), str(rep))
+    if not os.path.isfile(path):
+        return None, None
+    with open(path, "r") as f:
         d = json.load(f)
         return d["dictionary"], d["intercept"]
         
@@ -49,15 +52,34 @@ def get_ngram_dict(base_str, degree):
     if base_str.lower() == "smiles":
         return ngram_counter(read_raw_columns(["smiles"])["smiles"].values, degree)
     elif base_str.lower() == "lala":
-        return ngram_counter(read_raw_columns(["annulation"])["annulation"].values, degree)
+        return ngram_counter(read_raw_columns(["lalas"])["lalas"].values, degree)
+    elif base_str.lower() == "augmented_lala":
+        return ngram_counter(read_raw_columns(["augmented_lalas"])["augmented_lalas"].values, degree)
         
-def plot_property(property, test_size, base_str, plot_th):
-    custodi_d, custodi_intercept = read_custodi_data(property, test_size, base_str)
-    ngram_d = get_ngram_dict(base_str, 2)
-    color_d = make_color_palet(ngram_d)
-    norm_d = calc_weights(property, custodi_d, custodi_intercept, ngram_d)
-    plot_ngram_weights(property, norm_d, plot_th, color_d)
-    return norm_d
+def read_property_data(property, test_size, base_str, plot_th):
+    df = pd.DataFrame()
+    for rep in range(1, 6):
+        custodi_d, custodi_intercept = read_custodi_data(property, test_size, base_str, rep)
+        if custodi_d:
+            degree = max([len(s) for s in custodi_d])
+            ngram_d = get_ngram_dict(base_str, degree)
+            color_d = make_color_palet(ngram_d)
+            norm_d = calc_weights(property, custodi_d, custodi_intercept, ngram_d)
+            df = df.append(norm_d, ignore_index=True)
+    # calculating aggregations
+    n = len(df)
+    avg = df.mean()
+    std = 1 / (n - 1) * ((df - avg)**2).sum()
+    # formatting df
+    return pd.DataFrame(
+          {
+              "property": [property for _ in range(len(df.columns))],
+              "str": df.columns,
+              "n": [n for _ in range(len(df.columns))],
+              "avg": avg.values,
+              "var": std.values
+        }
+    )
     
 def legend_without_duplicate_labels(ax):
     handles, labels = ax.get_legend_handles_labels()
@@ -73,14 +95,14 @@ def make_color_palet(ngram_dict):
 
 
 if __name__ == "__main__":
-    for base_str in ["lala", "smiles"]:
+    for base_str in ["lala", "augmented_lala", "smiles"]:
         plt.figure(figsize=(12, 8))
         res = pd.DataFrame()
         for property in settings.properties:
-            d = plot_property(property, 1000, base_str, 0.01)
-            d["property"] = property
-            res = res.append(d, ignore_index=True)
+            print("running", base_str, "with", property)
+            df = read_property_data(property, 1000, base_str, 0.01)
+            res = pd.concat([res, df])
         res.to_csv("../results/feature_importance/custodi_{}.csv".format(base_str))
-        plt.title(base_str)
-        legend_without_duplicate_labels(plt.gca())
-        plt.savefig("../results/feature_importance/custodi_{}.png".format(base_str))
+        #plt.title(base_str)
+        #legend_without_duplicate_labels(plt.gca())
+        #plt.savefig("../results/feature_importance/custodi_{}.png".format(base_str))

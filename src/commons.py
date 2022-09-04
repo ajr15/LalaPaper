@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from skopt import BayesSearchCV
 from sklearn.model_selection import train_test_split
+from sklearn.utils import resample
 import os
 
 
@@ -60,6 +61,32 @@ def split_train_test(X, y, test_size: int, random_seed=1):
     # returning to original random state (to keep consistancy with other subroutines)
     np.random.set_state(org_state)
     return x_train, x_test, y_train, y_test
+    
+def bootstrap_idxs(n, n_bootstraps, n_test):
+    idxs = range(n)
+    res = []
+    for _ in range(n_bootstraps):
+      train = resample(idxs, replace=True, n_samples=(len(idxs)-n_test))
+      test = resample([x for x in idxs if not x in train], replace=True, n_samples=n_test)
+      res.append((train, test))
+    return res 
+    
+def bootstrap_data(X, y, n_bootstraps, test_size, random_seed=1):
+    org_state = np.random.get_state()
+    # setting seed for uniform results
+    np.random.seed(random_seed)
+    res = []
+    bs = bootstrap_idxs(len(y), n_bootstraps, test_size)
+    for train_idxs, test_idxs in bs:
+        x_train = np.array([X[i] for i in train_idxs])
+        x_test = np.array([X[i] for i in test_idxs])
+        y_train = np.array([y[i] for i in train_idxs])
+        y_test = np.array([y[i] for i in test_idxs])
+        res.append((x_train, x_test, y_train, y_test))
+    # returning to original random state (to keep consistancy with other subroutines)
+    np.random.set_state(org_state)
+    return res
+    
 
 # hyperparameter optimization
 
@@ -83,7 +110,7 @@ def run_bayes_cv(model, search_space: dict, X, y, cv: int, n_iter: int, n_jobs: 
     return searchcv.best_estimator_
 
 
-def analyze_model(model, x_train, y_train, x_test, y_test, results_directory: str, **plot_kwargs):
+def analyze_model(model, x_train, y_train, x_test, y_test, results_directory: str, prefix: str="", **plot_kwargs):
     """Method to analyze fit of an estimator and save it in a target results directory. saves the following data
         - fit scores on both train and test sets
         - fit plots for train and test sets
@@ -92,7 +119,7 @@ def analyze_model(model, x_train, y_train, x_test, y_test, results_directory: st
     if not os.path.isdir(results_directory):
         os.mkdir(results_directory)
     # saving model
-    model_dir = os.path.join(results_directory, "model")
+    model_dir = os.path.join(results_directory, prefix + "model")
     if not os.path.isdir(model_dir):
         os.mkdir(model_dir)
     # using model.save method
@@ -101,7 +128,7 @@ def analyze_model(model, x_train, y_train, x_test, y_test, results_directory: st
     res_dict = pd.DataFrame({"train": estimate_fit(model, x_train, y_train),
                              "test": estimate_fit(model, x_test, y_test)})
     # saving data
-    res_dict.to_csv(os.path.join(results_directory, "error_metrics.csv"))
+    res_dict.to_csv(os.path.join(results_directory, prefix + "error_metrics.csv"))
     # plotting fit
     plot_fit(model, x_train, y_train, title="Train set", **plot_kwargs)
     plt.savefig(os.path.join(results_directory, "Train.png"))

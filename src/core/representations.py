@@ -63,11 +63,25 @@ class LalaOneHot (OneHot):
 
 
     def __init__(self):
-        strings = read_raw_columns(["annulation"])["annulation"].values
+        strings = read_raw_columns(["lalas"])["lalas"].values
         super().__init__(strings)
 
     def represent(self, molecule_ids: List[str]):
-        strings = read_raw_columns(["annulation"]).loc[molecule_ids, :]["annulation"].values
+        strings = read_raw_columns(["lalas"]).loc[molecule_ids, :]["lalas"].values
+        return [self.tokenize_string(s) for s in strings]
+        
+class AugmentedLalaOneHot (OneHot):
+    """LALA based one-hot"""
+
+    name = "augmented_lala_one_hot_rep"
+
+
+    def __init__(self):
+        strings = read_raw_columns(["augmented_lalas"])["augmented_lalas"].values
+        super().__init__(strings)
+
+    def represent(self, molecule_ids: List[str]):
+        strings = read_raw_columns(["augmented_lalas"]).loc[molecule_ids, :]["augmented_lalas"].values
         return [self.tokenize_string(s) for s in strings]
 
 
@@ -103,20 +117,57 @@ class MolConvRepresentation (Representation):
         return featurizer.featurize(strings)
 
 
+class AugmentedLalaFeatures (Representation):
+    """Representation as the LALA feature vector"""
+
+    name = "augmented_lala_features_rep"
+    
+    def __init__(self, add_ratio: bool):
+        self.col_names = ["n_rings",
+                          "n_branching_points",
+                          #"n_secondary_branching_points",
+                          "n_LAL",
+                          "longest_L",
+                          "longest_L_degeneracy",
+                          #"second_longest_L",
+                          #"A_ratio_insensitive",
+                          "Aa_ratio",
+                          "longest_A",
+                          "longest_A_insensitive",
+                          #"longest_A_degeneracy"
+                          ]
+                          #"second_longest_A",
+                          #"second_longest_A_insensitive"]
+        if add_ratio:
+            self.col_names += ["A_ratio", "L_ratio"]
+    
+    def represent(self, molecule_ids: List[str]):
+        return read_raw_columns([c.lower() for c in self.col_names]).loc[molecule_ids, :]
+
 class LalaFeatures (Representation):
     """Representation as the LALA feature vector"""
 
     name = "lala_features_rep"
     
+    def __init__(self, add_ratio: bool):
+        self.col_names = ["n_rings",
+                          "n_branching_points",
+                          #"n_secondary_branching_points",
+                          "n_LAL",
+                          "longest_L",
+                          "longest_L_degeneracy",
+                          #"second_longest_L",
+                          #"A_ratio_insensitive",
+                          "longest_A_insensitive",
+                          ]
+                          #"second_longest_A_insensitive"]
+        if add_ratio:
+            self.col_names += ["L_ratio"]
+    
     def represent(self, molecule_ids: List[str]):
-        return read_raw_columns(["n_branches", 
-                                    "longest_a", 
-                                    "longest_l", 
-                                    "longest_l_degeneracy",
-                                    "second_longest_l",
-                                    "ratio_l",
-                                    "n_lal",
-                                    "n_rings"]).loc[molecule_ids, :]
+        return read_raw_columns([c.lower() for c in self.col_names]).loc[molecule_ids, :]
+                                  
+                                  
         
 
 def _padd_strings(strings: List[str]):
@@ -156,6 +207,23 @@ class LalaString (Representation):
 
     def represent(self, molecule_ids: List[str]):
         if self.padd:
-            return _padd_strings(read_raw_columns(["annulation"]).loc[molecule_ids, :]["annulation"].values)
+            return _padd_strings(read_raw_columns(["lalas"]).loc[molecule_ids, :]["lalas"].values)
         else:
-            return read_raw_columns(["annulation"]).loc[molecule_ids, :]["annulation"].values
+            return read_raw_columns(["lalas"]).loc[molecule_ids, :]["lalas"].values
+            
+class AugmentedLalaString (Representation):
+    """Representation that returns the LALA string of the molecules as representation"""
+
+    name = "augmented_lala_str_rep"
+
+    
+    def __init__(self, padd=False) -> None:
+        self.padd = padd
+
+
+    def represent(self, molecule_ids: List[str]):
+        if self.padd:
+            return _padd_strings(read_raw_columns(["augmented_lalas"]).loc[molecule_ids, :]["augmented_lalas"].values)
+        else:
+            return read_raw_columns(["augmented_lalas"]).loc[molecule_ids, :]["augmented_lalas"].values
+

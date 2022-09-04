@@ -4,7 +4,7 @@ from time import time
 import sys; sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.core.models import BaseEstimator
 from src.core.representations import Representation
-from src.commons import make_data, split_train_test, run_bayes_cv, analyze_model
+from src.commons import make_data, bootstrap_data, run_bayes_cv, analyze_model
 import settings
 
 def main_run(model: BaseEstimator, rep: Representation, property: str, test_size: int):
@@ -16,25 +16,29 @@ def main_run(model: BaseEstimator, rep: Representation, property: str, test_size
     # error if not valid property
     else:
         raise ValueError("Unrecognized property {}".format(property))
-    # splits to train / test
-    x_train, x_test, y_train, y_test = split_train_test(X, y, test_size)
-    # running CV
-    tick = time()
-    opt_model = run_bayes_cv(model, 
-                                settings.model_search_spaces[model.name],
-                                x_train, 
-                                y_train, 
-                                settings.cv_number, 
-                                settings.cv_n_iter,
-                                settings.cv_njobs)
-    tock = time()
     # making appropriate results directory
     prop_dir = os.path.join(settings.parent_res_dir, str(test_size), property)
     if not os.path.isdir(prop_dir):
         os.makedirs(prop_dir)
     res_dir = os.path.join(prop_dir, "{}_{}".format(model.name, rep.name))
-    # estimating performance & saving model
-    analyze_model(opt_model, x_train, y_train, x_test, y_test, res_dir, **settings.fit_plot_kwargs)
+    # Making Bootstraped data
+    data = bootstrap_data(X, y, settings.n_bootstraps, test_size)
+    counter = 1
+    # running CV
+    for x_train, x_test, y_train, y_test in data:
+        print_msg("PREFORMING BOOTSTRAP EXPERIMENT {} OUT OF {}".format(counter, len(data)))
+        tick = time()
+        opt_model = run_bayes_cv(model, 
+                                    settings.model_search_spaces[model.name],
+                                    x_train, 
+                                    y_train, 
+                                    settings.cv_number, 
+                                    settings.cv_n_iter,
+                                    settings.cv_njobs)
+        tock = time()
+        # estimating performance & saving model
+        analyze_model(opt_model, x_train, y_train, x_test, y_test, res_dir, prefix="{}_".format(counter), **settings.fit_plot_kwargs)
+        counter += 1
     with open(os.path.join(res_dir, "run_info.json"), "w") as f:
         json.dump({"runtime": tock - tick, "njobs": settings.cv_njobs, "test_size": len(y_test), "train_size": len(y_train)}, f)
 

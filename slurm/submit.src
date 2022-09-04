@@ -1,12 +1,12 @@
 #!/bin/bash
-#SBATCH --array=1-36
-#SBATH --mem=20GB
-#SBATCH -n 5
+#SBATCH --array=1-264
+#SBATH --mem=16GB
+#SBATCH -n 8
 #SBATCH -N 1
 #SBATCH -J LALA
 #SBATCH -o /home/shaharpit/Personal/LalaPaper/results/outputs/run_%a.out
 #SBATCH -e /home/shaharpit/Personal/LalaPaper/results/errors/run_%a.out
-#SBATCH --depend=afterok:115730
+
 
 cd /home/shaharpit/Personal/LalaPaper/scripts
 args_file=/home/shaharpit/Personal/LalaPaper/slurm/arguments.txt
